@@ -10,8 +10,8 @@ object Problems {
 
   def isPalindrome[T](list: List[T]) : Boolean = list match {
   case x :: Nil => true
+  case Nil => true
   case x :: xs => xs.last == x && isPalindrome(xs.init)
-  case _ => true
   }
 
 
@@ -21,11 +21,10 @@ object Problems {
   def findNumberOfElems[T](list: List[T]): Int = {
 
     def innerFindNumbers(i: Int, list: List[T]): Int = list match {
-    case _ :: Nil => i
-    case _ :: xs => innerFindNumbers(i + 1, list.tail)
-    case _ => 0
+    case Nil => i
+    case _ :: xs => innerFindNumbers(i + 1, xs)
     }
-    innerFindNumbers(1, list)
+    innerFindNumbers(0, list)
   }
 
 
