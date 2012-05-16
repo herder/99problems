@@ -8,15 +8,25 @@ import collection.immutable.List
  */
 object Problems {
 
-  def isPalindrome[T](list: List[T]) : Boolean = list match {
+  def flattenList[T](list: List[T]): List[T] = list match {
+  case Nil => Nil
+  case (x: List[T]) :: xs => flattenList(x) ::: flattenList(xs)
+  case (x: T) :: xs => x :: flattenList(xs)
+  }
+
+
+  def isPalindrome[T](list: List[T]): Boolean = list match {
   case x :: Nil => true
   case Nil => true
   case x :: xs => xs.last == x && isPalindrome(xs.init)
   }
 
 
-
-  def reverseList[T](list: List[T]): List[T] = list.foldLeft(List[T]()) { (a, b) => b :: a}
+  def reverseList[T](list: List[T]): List[T] = list match {
+  case Nil => Nil
+  case x :: Nil => List(x)
+  case x :: xs => reverseList(xs) ::: List(x)
+  }
 
   def findNumberOfElems[T](list: List[T]): Int = {
 
@@ -48,8 +58,19 @@ object Problems {
 
 
   def findLast[T](list: List[T]): T = list match {
+  case Nil => throw new IllegalArgumentException("Empty list")
   case x :: Nil => x
   case _ :: xs => findLast(xs)
-  case _ => throw new IllegalArgumentException("Empty list")
+  }
+
+  def compress[T](list: List[T]): List[T] = list match {
+  case Nil => Nil
+  case x :: Nil => x :: Nil
+  case x :: y :: xs => if (x == y) {
+    compress(x :: xs)
+  }
+  else {
+    x :: compress(y :: xs)
+  }
   }
 }
